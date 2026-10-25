@@ -1,0 +1,11 @@
+<div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #D4AF37;">
+  <h2 style="color: #8A6A10; margin-top: 0;">NurLife</h2>
+  <p>Чтобы задать новый пароль, перейдите по ссылке:</p>
+  <p>
+    <a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next=/set-password"
+       style="display: inline-block; background: #D4AF37; color: #0B0B0B; padding: 12px 20px; text-decoration: none; font-weight: bold;">
+      Задать пароль
+    </a>
+  </p>
+  <p style="color: #555; font-size: 13px;">Если вы не запрашивали восстановление, проигнорируйте письмо.</p>
+</div>

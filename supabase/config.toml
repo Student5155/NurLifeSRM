@@ -1,0 +1,56 @@
+# Конфигурация локального Supabase (npx supabase start).
+# Недостающие параметры CLI берёт по умолчанию.
+project_id = "nurlife"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 17
+
+[db.seed]
+enabled = false
+
+[realtime]
+enabled = true
+
+[studio]
+enabled = true
+port = 54323
+
+[inbucket]
+enabled = true
+port = 54324
+
+[storage]
+enabled = true
+file_size_limit = "5MiB"
+
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000/auth/confirm"]
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+# Регистрация закрыта: сотрудников приглашает владелец.
+enable_signup = false
+enable_anonymous_sign_ins = false
+minimum_password_length = 8
+
+[auth.email]
+enable_signup = false
+double_confirm_changes = true
+enable_confirmations = false
+
+[auth.email.template.invite]
+subject = "Приглашение в NurLife"
+content_path = "./supabase/templates/invite.html"
+
+[auth.email.template.recovery]
+subject = "Восстановление пароля NurLife"
+content_path = "./supabase/templates/recovery.html"

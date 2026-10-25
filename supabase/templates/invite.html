@@ -1,0 +1,12 @@
+<div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #D4AF37;">
+  <h2 style="color: #8A6A10; margin-top: 0;">NurLife</h2>
+  <p>Здравствуйте!</p>
+  <p>Вас пригласили в CRM NurLife. Чтобы войти, перейдите по ссылке и задайте пароль:</p>
+  <p>
+    <a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=invite&next=/set-password"
+       style="display: inline-block; background: #D4AF37; color: #0B0B0B; padding: 12px 20px; text-decoration: none; font-weight: bold;">
+      Принять приглашение
+    </a>
+  </p>
+  <p style="color: #555; font-size: 13px;">Если вы не ждали это письмо, просто проигнорируйте его.</p>
+</div>
