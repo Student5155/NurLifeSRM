@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  app:
+    name: Типы, модульные тесты, сборка
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Зависимости
+        run: if [ -f package-lock.json ]; then npm ci; else npm install; fi
+      - run: npm run typecheck
+      - run: npm test
+      - name: Сборка
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54321
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-placeholder
+
+  database:
+    name: Миграции и SQL-тесты (pgTAP)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Локальная база
+        run: supabase db start
+      - name: SQL-тесты (схема, RLS, склад, оплаты, отчёты)
+        run: supabase test db
