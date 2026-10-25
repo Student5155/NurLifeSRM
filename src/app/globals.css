@@ -1,0 +1,256 @@
+@import "tailwindcss";
+
+/* Тема по умолчанию тёмная (чёрно-золотая); светлая — класс .light на <html>. */
+@custom-variant light (&:where(.light, .light *));
+
+/* =====================================================================
+   Токены темы NurLife. Контраст проверяет tests/unit/contrast.test.ts:
+   текст ≥ 4.5:1, элементы управления ≥ 3:1 (WCAG AA).
+   ===================================================================== */
+:root {
+  --background: #0b0b0b;
+  --foreground: #f5f0e1;
+  --card: #151515;
+  --card-foreground: #f5f0e1;
+  --popover: #181818;
+  --popover-foreground: #f5f0e1;
+  --primary: #d4af37;
+  --primary-hover: #e6c35c;
+  --primary-foreground: #0b0b0b;
+  --secondary: #1f1f1f;
+  --secondary-foreground: #f5f0e1;
+  --muted: #1c1c1c;
+  --muted-foreground: #a89f8c;
+  --accent: #2a2416;
+  --accent-foreground: #e6c35c;
+  --destructive: #f2555a;
+  --destructive-foreground: #0b0b0b;
+  --success: #5bc48a;
+  --warning: #e8a33d;
+  --info: #6ca6e8;
+  --border: #2e2a20;
+  --input: #7a6f58;
+  --ring: #d4af37;
+  --ornament: #d4af37;
+  --ornament-opacity: 0.14;
+  --radius: 0.625rem;
+
+  --chart-1: #d4af37;
+  --chart-2: #6ca6e8;
+  --chart-3: #5bc48a;
+  --chart-4: #e8a33d;
+  --chart-5: #b88be0;
+}
+
+.light {
+  --background: #faf7ef;
+  --foreground: #1a1712;
+  --card: #ffffff;
+  --card-foreground: #1a1712;
+  --popover: #ffffff;
+  --popover-foreground: #1a1712;
+  --primary: #8a6a10;
+  --primary-hover: #6f550c;
+  --primary-foreground: #ffffff;
+  --secondary: #f1ece0;
+  --secondary-foreground: #1a1712;
+  --muted: #f3efe4;
+  --muted-foreground: #5e5646;
+  --accent: #f5ead0;
+  --accent-foreground: #5c470a;
+  --destructive: #c2272d;
+  --destructive-foreground: #ffffff;
+  --success: #1e7a4a;
+  --warning: #9a5b00;
+  --info: #1f5fa8;
+  --border: #e3dccb;
+  --input: #8a7f68;
+  --ring: #8a6a10;
+  --ornament: #8a6a10;
+  --ornament-opacity: 0.12;
+
+  --chart-1: #8a6a10;
+  --chart-2: #1f5fa8;
+  --chart-3: #1e7a4a;
+  --chart-4: #9a5b00;
+  --chart-5: #6b3fa0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --font-sans: var(--font-body), system-ui, sans-serif;
+  --font-display: var(--font-heading), Georgia, serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+  }
+  html.light {
+    color-scheme: light;
+  }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "tnum" 1;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    letter-spacing: 0.01em;
+  }
+  /* Видимый фокус — золотое кольцо на любом интерактивном элементе. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--primary) 35%, transparent);
+  }
+  input[type="number"]::-webkit-inner-spin-button {
+    opacity: 0.6;
+  }
+}
+
+/* =====================================================================
+   Орнамент: тонкие геометрические бордюры (8-конечные звёзды, гирих).
+   Только декор — никогда под текстом, низкая прозрачность.
+   ===================================================================== */
+@layer components {
+  .ornament-band {
+    position: relative;
+    height: 14px;
+    pointer-events: none;
+    opacity: var(--ornament-opacity);
+    background-color: var(--ornament);
+    -webkit-mask: url("/ornaments/band.svg") repeat-x center / auto 14px;
+    mask: url("/ornaments/band.svg") repeat-x center / auto 14px;
+  }
+  .ornament-column {
+    pointer-events: none;
+    width: 14px;
+    opacity: var(--ornament-opacity);
+    background-color: var(--ornament);
+    -webkit-mask: url("/ornaments/band-v.svg") repeat-y center / 14px auto;
+    mask: url("/ornaments/band-v.svg") repeat-y center / 14px auto;
+  }
+  .ornament-field {
+    pointer-events: none;
+    opacity: calc(var(--ornament-opacity) * 0.6);
+    background-color: var(--ornament);
+    -webkit-mask: url("/ornaments/tile.svg") repeat center / 72px 72px;
+    mask: url("/ornaments/tile.svg") repeat center / 72px 72px;
+  }
+  /* Арка: верх карточки дашборда и рамка логотипа. */
+  .arch {
+    border-top-left-radius: 999px 64px;
+    border-top-right-radius: 999px 64px;
+  }
+  .arch-frame {
+    border: 1px solid color-mix(in srgb, var(--primary) 55%, transparent);
+    border-top-left-radius: 999px;
+    border-top-right-radius: 999px;
+  }
+  .gold-rule {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    opacity: 0.6;
+  }
+}
+
+/* Таблицы: числа выравниваются, длинные строки не ломают вёрстку. */
+.num {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* =====================================================================
+   Печать: белый фон, чёрный текст, тонкие золотые линии, без заливок.
+   ===================================================================== */
+.print-sheet {
+  --print-gold: #b08d2a;
+  background: #ffffff;
+  color: #000000;
+  font-family: var(--font-sans);
+}
+.print-sheet table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.print-sheet th,
+.print-sheet td {
+  border: 1px solid #000;
+  padding: 3px 5px;
+  vertical-align: top;
+}
+.print-sheet th {
+  font-weight: 600;
+  background: transparent;
+}
+.print-sheet .gold-line {
+  border-top: 1px solid var(--print-gold);
+}
+.print-sheet .gold-frame {
+  border: 1px solid var(--print-gold);
+}
+
+@media print {
+  @page {
+    margin: 12mm;
+  }
+  html,
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    color-scheme: light;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-sheet {
+    box-shadow: none !important;
+    margin: 0 !important;
+    max-width: none !important;
+  }
+  .print-80mm {
+    width: 72mm !important;
+  }
+}
