@@ -1,4 +1,5 @@
 import { createServerClient } from "@supabase/ssr";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { NextResponse, type NextRequest } from "next/server";
 import type { Database } from "@/lib/database.types";
 
@@ -24,7 +25,8 @@ function redirectTo(request: NextRequest, pathname: string, params?: Record<stri
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
 
-  const supabase = createServerClient<Database>(
+  // Без generic-параметров у @supabase/ssr (см. client.ts), результат типизируем явно.
+  const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
@@ -39,7 +41,7 @@ export async function updateSession(request: NextRequest) {
         },
       },
     },
-  );
+  ) as unknown as SupabaseClient<Database>;
 
   const {
     data: { user },
