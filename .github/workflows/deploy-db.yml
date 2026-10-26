@@ -1,0 +1,26 @@
+name: Обновить базу данных Supabase
+
+# Запуск вручную: Actions → «Обновить базу данных Supabase» → Run workflow.
+# Применяет к облачной базе все новые миграции из supabase/migrations.
+# Секреты репозитория (Settings → Secrets and variables → Actions):
+#   SUPABASE_ACCESS_TOKEN — личный токен (supabase.com → Account → Access Tokens)
+#   SUPABASE_DB_PASSWORD  — пароль базы, заданный при создании проекта
+#   SUPABASE_PROJECT_ID   — Reference ID проекта (Project Settings → General)
+on:
+  workflow_dispatch:
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Подключение к проекту
+        run: supabase link --project-ref "${{ secrets.SUPABASE_PROJECT_ID }}" --password "$SUPABASE_DB_PASSWORD"
+      - name: Применение миграций
+        run: supabase db push --password "$SUPABASE_DB_PASSWORD"
